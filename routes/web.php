@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\PhotoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,9 +39,7 @@ Route::get('/lol', function () {
 });
 
 
-
 // ==============================================
-
 
 
 // Route::get('/user/{name}', function ($name) {
@@ -50,9 +51,7 @@ Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId) {
 });
 
 
-
 // ================================================
-
 
 
 // Route::get('/user/{name?}', function ($name=null) {
@@ -64,60 +63,53 @@ Route::get('/user/{name?}', function ($name = 'John') {
 });
 
 
-
 // ====================================================
 
 
-
-Route::get('/user/profile', function () {
-    //
-})->name('profile');
-Route::get(
-    '/user/profile',
-    [UserProfileController::class, 'show']
-)->name('profile');
-// Generating URLs...
-$url = route('profile');
-// Generating Redirects...
-return redirect()->route('profile');
-
+// Route::get('/user/profile', function () {
+//     //
+// })->name('profile');
+// Route::get(
+//     '/user/profile',
+//     [UserProfileController::class, 'show']
+// )->name('profile');
+// // Generating URLs...
+// $url = route('profile');
+// // Generating Redirects...
+// return redirect()->route('profile');
 
 
 // ==================================================
 
 
-
-Route::middleware(['first', 'second'])->group(function () {
-    Route::get('/', function () {
-        // Uses first & second middleware...
-    });
-    Route::get('/user/profile', function () {
-        // Uses first & second middleware...
-    });
-});
-Route::domain('{account}.example.com')->group(function () {
-    Route::get('user/{id}', function ($account, $id) {
-        //
-    });
-});
-Route::middleware('auth')->group(function () {
-    Route::get('/user', [UserController::class, 'index']);
-    Route::get('/post', [PostController::class, 'index']);
-    Route::get('/event', [EventController::class, 'index']);
-});
-
+// Route::middleware(['first', 'second'])->group(function () {
+//     Route::get('/', function () {
+//         // Uses first & second middleware...
+//     });
+//     Route::get('/user/profile', function () {
+//         // Uses first & second middleware...
+//     });
+// });
+// Route::domain('{account}.example.com')->group(function () {
+//     Route::get('user/{id}', function ($account, $id) {
+//         //
+//     });
+// });
+// Route::middleware('auth')->group(function () {
+//     Route::get('/user', [UserController::class, 'index']);
+//     Route::get('/post', [PostController::class, 'index']);
+//     Route::get('/event', [EventController::class, 'index']);
+// });
 
 
 // =====================================================
 
 
-
-Route::prefix('admin')->group(function () {
-    Route::get('/user', [UserController::class, 'index']);
-    Route::get('/post', [PostController::class, 'index']);
-    Route::get('/event', [EventController::class, 'index']);
-});
-
+// Route::prefix('admin')->group(function () {
+//     Route::get('/user', [UserController::class, 'index']);
+//     Route::get('/post', [PostController::class, 'index']);
+//     Route::get('/event', [EventController::class, 'index']);
+// });
 
 
 // ====================================================
@@ -126,10 +118,28 @@ Route::prefix('admin')->group(function () {
 Route::redirect('/here', '/there');
 
 
-
 // ================================================
-
 
 
 Route::view('/welcome', 'welcome');
 Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
+
+
+// ===================================================
+
+
+Route::get('/hello', [WelcomeController::class, 'hello']);
+
+
+// ==================================================
+
+
+Route::resource('photos', PhotoController::class);
+
+Route::resource('photos', PhotoController::class)->only([
+    'index', 'show'
+]);
+
+Route::resource('photos', PhotoController::class)->except([
+    'create', 'store', 'update', 'destroy'
+]);
