@@ -1,7 +1,11 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\PhotoController;
 
 
@@ -16,27 +20,26 @@ use App\Http\Controllers\PhotoController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
-Route::get('/hello', function () {
-    return 'Hello World';
-});
+// Route::get('/hello', function () {
+//     return 'Hello World';
+// });
 
 Route::get('/world', function () {
     return 'World';
 });
 
-Route::get('/welcome', function () {
+Route::get('/', function () {
     return 'Welcome';
 });
 
-Route::get('/lol', function () {
+Route::get('/about', function () {
     $nim = '2241720255';
     $name = 'Davis Maulana Hermanto';
     return $nim . " - " . $name;
 });
+
+
 
 
 // ==============================================
@@ -49,6 +52,12 @@ Route::get('/lol', function () {
 Route::get('/posts/{post}/comments/{comment}', function ($postId, $commentId) {
     return 'Pos ke-' . $postId . ' Komentar ke-' . $commentId;
 });
+
+
+Route::get('/article/{id}', function ($id){
+    return 'Artile Page with ID '. $id;
+});
+
 
 
 // ================================================
@@ -130,6 +139,10 @@ Route::view('/welcome', 'welcome', ['name' => 'Taylor']);
 
 Route::get('/hello', [WelcomeController::class, 'hello']);
 
+Route::get('/', [homeController::class, 'home']);
+Route::get('/about', [AboutController::class, 'about']);
+Route::get('/articles/{id}', [ArticleController::class, 'articles']);
+
 
 // ==================================================
 
@@ -143,3 +156,18 @@ Route::resource('photos', PhotoController::class)->only([
 Route::resource('photos', PhotoController::class)->except([
     'create', 'store', 'update', 'destroy'
 ]);
+
+
+// ================================================
+
+
+// Route::get('/greeting', function () {
+//     return view('hello', ['name' => 'Andi']);
+// });
+
+// Route::get('/greeting', function () {
+//     return view('blog.hello', ['name' => 'Davis']);
+// });
+
+Route::get('/greeting', [WelcomeController::class,
+'greeting']);
